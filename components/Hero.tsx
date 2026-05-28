@@ -31,7 +31,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background z-10" />
         <img
-          src="/images/home.jpg"
+          src="/images/SnapInsta.to_537359421_18338593366207030_7218902715187156461_n.jpg"
           alt="Devotees in Pandharpur"
           className="w-full h-full object-cover scale-105 animate-[slowZoom_30s_ease-in-out_infinite_alternate]"
         />

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export default function HindupediaContent({ isMarathi }: { isMarathi: boolean }) {
@@ -12,6 +13,39 @@ export default function HindupediaContent({ isMarathi }: { isMarathi: boolean })
         Vithoba of Pandharpur
       </h1>
       <p className="text-center text-[#cbbba0] opacity-80 mb-16 italic font-cinzel">By Dr Suruchi Pandey (Source: Hindupedia)</p>
+
+      {/* Responsive image gallery — drop your reference images into public/images/ */}
+      <section className="w-full max-w-6xl mx-auto px-4 md:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-8">
+          <div className="md:col-span-2">
+            <Image
+              src="/images/panduranga-hero.jpg"
+              alt="Panduranga sculpture"
+              width={1200}
+              height={800}
+              className="rounded-lg object-cover w-full h-[420px] shadow-lg"
+            />
+            <p className="mt-2 text-sm text-[#cbbba0] italic">Sculptural panel from a Pandharpur temple (photo reference).</p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Image
+              src="/images/panduranga-2.jpg"
+              alt="Temple sculpture detail"
+              width={800}
+              height={400}
+              className="rounded-lg object-cover w-full h-[200px] shadow"
+            />
+            <Image
+              src="/images/panduranga-3.jpg"
+              alt="Temple base carving"
+              width={800}
+              height={400}
+              className="rounded-lg object-cover w-full h-[200px] shadow"
+            />
+          </div>
+        </div>
+      </section>
 
       <p className={pClass}>
         <span className={cn("float-left text-7xl md:text-8xl mr-4 mt-2 text-[#8c6b42]", isMarathi ? "font-yatra" : "font-cinzel")}>P</span>
