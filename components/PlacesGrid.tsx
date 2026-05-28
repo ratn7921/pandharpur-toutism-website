@@ -34,7 +34,7 @@ const places = [
   {
     name: "Padmavati Mata Mandir",
     description: "Dedicated to Goddess Padmavati, the consort of Lord Vitthal. A peaceful spot for prayer and meditation.",
-    image: "/images/5.jpg",
+    image: "/images/shri-padmavati-mandir-6430413.png",
   },
   {
     name: "Sant Namdev Maharaj Mandir",
