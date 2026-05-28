@@ -18,7 +18,7 @@ const places = [
     nameMr: "श्री संत गजानन महाराज संस्थान",
     descEn: "Known for exceptional cleanliness and disciplined environment, this highly recommended spiritual retreat is open 24/7 and offers clean, affordable accommodation and satvik prasad meals.",
     descMr: "उत्कृष्ट स्वच्छता आणि शिस्तप्रिय वातावरणासाठी ओळखले जाणारे हे आध्यात्मिक केंद्र २४ तास खुले असते. येथे स्वच्छ, परवडणारे निवासस्थान आणि सात्विक महाप्रसाद भोजन मिळते.",
-    image: "/images/gajanan mahaj math.jpg",
+    image: "/images/mandir.jpg",
   },
   {
     nameEn: "Vishnupad Temple",
@@ -32,28 +32,28 @@ const places = [
     nameMr: "तुळशी वृंदावन",
     descEn: "A charming garden that is particularly beautiful in the evenings, featuring a musical fountain and beautifully lit basil plants. Closes at 8:00 PM tonight.",
     descMr: "विविध प्रकारच्या तुळशीची रोपे आणि रात्री उजळून निघणाऱ्या संगीतमय कारंज्यासह संध्याकाळच्या वेळी अत्यंत विलोभनीय दिसणारी एक सुंदर बाग. आज रात्री ८:०० वाजता बंद होईल.",
-    image: "/images/Screenshot 2026-05-28 194604.jpg",
+    image: "/images/4.jpg",
   },
   {
     nameEn: "Chandrabhaga River",
     nameMr: "चंद्रभागा नदी",
     descEn: "The crescent-shaped riverfront is the soul of Pandharpur. Pilgrims take a holy dip at the ghats before visiting the main shrine. The riverside walks offer a peaceful and transcendent atmosphere.",
     descMr: "अर्धचंद्राकृती नदीकाठ हा पंढरपूरचा आत्मा आहे. भाविक मुख्य मंदिराला भेट देण्यापूर्वी घाटावर पवित्र स्नान करतात. नदीकाठचा परिसर अतिशय शांत आणि दैवी अनुभव देतो.",
-    image: "/images/river.jpg",
+    image: "/images/Chandrabhaga_River.jpg",
   },
   {
     nameEn: "ISKCON Pandharpur",
     nameMr: "इस्कॉन पंढरपूर",
     descEn: "Situated on the eastern bank of the river, this center is known for its peaceful, clean environment, beautiful Krishna temple, and spiritual meditation retreats.",
     descMr: "नदीच्या पूर्व किनाऱ्यावर वसलेले हे केंद्र अत्यंत शांत, स्वच्छ वातावरण आणि विलोभनीय कृष्ण मंदिरासाठी प्रसिद्ध असून ध्यानसाधनेसाठी उत्तम स्थान आहे.",
-    image: "/images/iskon.jpg",
+    image: "/images/SnapInsta.to_616422600_18308011927266147_2934674065074266050_n.jpg",
   },
   {
     nameEn: "Kaikadi Maharaj Mandir",
     nameMr: "कैकाडी महाराज मंदिर",
     descEn: "A unique temple math housing nearly 1,000 intricately carved idols that depict various gods, saints, and rich mythological scenes from Hindu scriptures.",
     descMr: "विविध देवी-देवता, संत आणि पौराणिक प्रसंग दर्शवणाऱ्या सुमारे १,००० हून अधिक भव्य मूर्ती असलेले एक अद्वितीय आणि प्रेक्षणीय मंदिर व मठ.",
-    image: "/images/kaikadi maharaj.jpg",
+    image: "/images/3.jpg",
   },
 ];
 
@@ -62,53 +62,75 @@ export default function PlacesGrid() {
   const isMr = language === 'mr';
   const [activeMapQuery, setActiveMapQuery] = useState("Pandharpur, Maharashtra");
   const [currentTime, setCurrentTime] = useState("");
+
+  // Interactive Card & Direction states
   const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
   const [startPoints, setStartPoints] = useState<{ [key: number]: string }>({});
   const [routeQueries, setRouteQueries] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
-    const updateTime = () => {
+    const formatTime = () => {
       const now = new Date();
-      setCurrentTime(now.toLocaleTimeString(isMr ? 'mr-IN' : 'en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: true 
-      }));
+      return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
+    setCurrentTime(formatTime());
+    const interval = setInterval(() => {
+      setCurrentTime(formatTime());
+    }, 60000);
     return () => clearInterval(interval);
-  }, [isMr]);
+  }, []);
 
-  const getPlaceStatus = (index: number) => {
+  const getPlaceStatus = (placeId: number) => {
     const now = new Date();
     const hour = now.getHours();
     const minute = now.getMinutes();
-    const currentDecimalTime = hour + minute / 60;
+
+    const isOpen24 = [1, 2, 4].includes(placeId);
+    if (isOpen24) return { status: "open" as const, textEn: "Open 24/7", textMr: "२४ तास उघडे" };
 
     let openHour = 6;
-    let closeHour = 22; 
+    let closeHour = 20;
 
-    if (index === 0) { closeHour = 23; } 
-    else if (index === 1 || index === 2) { openHour = 0; closeHour = 24; } 
-    else if (index === 3) { openHour = 16; closeHour = 20; } 
-    else if (index === 4) { openHour = 0; closeHour = 24; } 
-    else if (index === 5) { openHour = 4.5; closeHour = 21; } 
-    else if (index === 6) { openHour = 8; closeHour = 20; }
+    if (placeId === 0) {
+      openHour = 6;
+      closeHour = 23;
+    } else if (placeId === 3) {
+      openHour = 9;
+      closeHour = 20;
+    } else if (placeId === 5) {
+      openHour = 4.5;
+      closeHour = 20.5;
+    } else if (placeId === 6) {
+      openHour = 6;
+      closeHour = 20;
+    }
+
+    const currentDecimalTime = hour + minute / 60;
 
     if (currentDecimalTime >= openHour && currentDecimalTime < closeHour) {
       if (closeHour - currentDecimalTime <= 0.5) {
         return { status: "soon" as const, textEn: "Closing Soon", textMr: "लवकरच बंद होईल" };
       }
       return { status: "open" as const, textEn: "Open Now", textMr: "आता उघडे आहे" };
+    } else {
+      return { status: "closed" as const, textEn: "Closed", textMr: "बंद आहे" };
     }
-    return { status: "closed" as const, textEn: "Closed", textMr: "बंद आहे" };
+  };
+
+  const getPlaceMapUrl = (index: number, placeNameEn: string) => {
+    const route = routeQueries[index];
+    if (route) {
+      return `https://maps.google.com/maps?saddr=${encodeURIComponent(route)}&daddr=${encodeURIComponent(placeNameEn + ", Pandharpur, Solapur, Maharashtra")}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+    }
+    return `https://maps.google.com/maps?q=${encodeURIComponent(placeNameEn + ", Pandharpur, Solapur, Maharashtra")}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
   };
 
   const handleGetDirections = (index: number, e: React.FormEvent) => {
     e.preventDefault();
-    if (startPoints[index]?.trim()) {
-      setRouteQueries(prev => ({ ...prev, [index]: startPoints[index] }));
+    e.stopPropagation();
+    const start = startPoints[index] || "";
+    if (start.trim()) {
+      setRouteQueries(prev => ({ ...prev, [index]: start }));
     }
   };
 
@@ -124,9 +146,9 @@ export default function PlacesGrid() {
     e.stopPropagation();
     setStartPoints(prev => ({ ...prev, [index]: "" }));
     setRouteQueries(prev => {
-      const newQueries = { ...prev };
-      delete newQueries[index];
-      return newQueries;
+      const copy = { ...prev };
+      delete copy[index];
+      return copy;
     });
   };
 
@@ -146,25 +168,57 @@ export default function PlacesGrid() {
   };
 
   return (
-    <section id="places" className="py-24 md:py-32 px-6 bg-background relative z-10">
+    <section id="places" className="py-24 md:py-32 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-foreground/10 pb-8">
+        <div className="mb-16 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="h-px w-12 bg-saffron"></span>
-              <h3 className="text-saffron font-bold uppercase tracking-widest text-sm flex items-center gap-2">
-                <Clock size={16} /> 
-                {isMr ? "थेट आध्यात्मिक मार्गदर्शक" : "Live Spiritual Guide"} • {currentTime}
-              </h3>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4 font-cinzel">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
               {isMr ? "पवित्र ठिकाणे" : "Sacred Destinations"}
             </h2>
-            <p className="text-lg text-foreground/70 max-w-2xl font-mukta">
+            <p className="text-lg text-foreground/70 max-w-2xl">
               {isMr 
-                ? "शहरातील अशी ऐतिहासिक आणि आध्यात्मिक ठिकाणे एक्सप्लोर करा ज्यांना अनन्यसाधारण महत्त्व आहे. थेट दर्शन वेळा आणि मार्ग पाहण्यासाठी कोणत्याही कार्डवर क्लिक करा."
-                : "Explore divine spots holding immense historical and spiritual significance. Click any card for live timings and custom route maps."}
+                ? "शहरातील अशी ऐतिहासिक आणि आध्यात्मिक ठिकाणे एक्सप्लोर करा ज्यांना अनन्यसाधारण महत्त्व आहे."
+                : "Explore the divine spots around the city that hold immense historical and spiritual significance."}
             </p>
+          </div>
+          <button className="flex items-center gap-2 text-saffron font-medium hover:text-saffron-dark transition-colors group mx-auto md:mx-0">
+            {isMr ? "सर्व पहा" : "View All"} <ArrowRight size={20} className="transform group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+
+        <div className="mb-12 p-8 rounded-3xl bg-gradient-to-r from-saffron/10 via-amber-500/5 to-transparent border border-saffron/20 backdrop-blur-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-saffron/10 rounded-full blur-3xl -z-10" />
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                  {isMr ? "थेट आध्यात्मिक मार्गदर्शक" : "Live Spiritual Guide"}
+                </span>
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-foreground">
+                {isMr 
+                  ? "पंढरपूर - भारताचे 'दक्षिण काशी'" 
+                  : "Pandharpur - The 'South Kashi' of India"}
+              </h3>
+              <p className="text-foreground/80 leading-relaxed max-w-4xl text-sm md:text-base">
+                {isMr 
+                  ? `पंढरपूर हे भगवान विठ्ठलाच्या आराधनेचे मुख्य केंद्र आहे. सध्या रात्रीचे ${currentTime || "०७:५०"} वाजले असल्याने, काही प्रमुख आध्यात्मिक स्थळे रात्रीच्या दर्शनासाठी किंवा चंद्रभागेच्या घाटावर शांत चिंतनासाठी खुली आहेत.`
+                  : `Pandharpur, known as the "South Kashi" of India, is a major pilgrimage hub centered around the worship of Lord Vitthal. Since it is currently ${currentTime || "7:50 PM"}, several iconic spiritual sites remain open for late-evening darshan or peaceful reflection by the river.`}
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center justify-center p-6 bg-background/60 border border-foreground/10 rounded-2xl min-w-[160px] shadow-lg backdrop-blur-md">
+              <span className="text-xs text-foreground/50 font-medium uppercase tracking-wider mb-1 flex items-center gap-1">
+                <Clock size={12} /> {isMr ? "स्थानिक वेळ" : "Local Time"}
+              </span>
+              <span className="text-2xl font-bold font-mono text-saffron tracking-wider">
+                {currentTime || "07:50 PM"}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -177,32 +231,38 @@ export default function PlacesGrid() {
         >
           {places.map((place, index) => {
             const isActive = activeCardIndex === index;
-            const routeOrigin = routeQueries[index];
-            const placeDestination = place.nameEn + ", Pandharpur, Maharashtra";
-            
-            const placeMapUrl = routeOrigin 
-              ? `https://maps.google.com/maps?saddr=${encodeURIComponent(routeOrigin)}&daddr=${encodeURIComponent(placeDestination)}&output=embed`
-              : `https://maps.google.com/maps?q=${encodeURIComponent(placeDestination)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+            const placeMapUrl = getPlaceMapUrl(index, place.nameEn);
 
             return (
               <motion.div 
                 key={index} 
                 layout
                 variants={item}
-                onClick={() => setActiveCardIndex(isActive ? null : index)}
-                className={`group relative overflow-hidden rounded-3xl cursor-pointer shadow-2xl border border-foreground/10 ${
-                  isActive ? 'md:col-span-2 h-[600px] md:h-[500px]' : 'h-[400px]'
+                onClick={(e) => {
+                  if (!isActive) {
+                    setActiveCardIndex(index);
+                    setActiveMapQuery(`${place.nameEn}, Pandharpur, Maharashtra`);
+                  }
+                }}
+                className={`group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-500 border border-foreground/10 ${
+                  isActive 
+                    ? "h-[650px] md:h-[500px] md:col-span-2 shadow-2xl ring-2 ring-saffron/30" 
+                    : "h-[400px] col-span-1 hover:border-saffron/30"
                 }`}
               >
+                {/* Background Image - Always Visible */}
                 <img 
                   src={place.image} 
-                  alt={place.nameEn} 
+                  alt={isMr ? place.nameMr : place.nameEn} 
                   className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-500" />
                 
+                {/* Normal State Info View */}
                 {!isActive ? (
                   <>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    
+                    {/* Live Status Badge */}
                     <div className="absolute top-6 right-6 z-20">
                       {(() => {
                         const info = getPlaceStatus(index);
@@ -234,18 +294,22 @@ export default function PlacesGrid() {
                         {isMr ? place.descMr : place.descEn}
                       </p>
                       
+                      {/* Click to open indicator */}
                       <span className="text-xs text-saffron/80 font-semibold tracking-wider uppercase mt-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
                         {isMr ? "📍 नकाशा आणि मार्ग उघडण्यासाठी क्लिक करा" : "📍 Click to open map & get directions"}
                       </span>
                     </div>
                   </>
                 ) : (
+                  /* Active State Map & Direction Finder View */
                   <div 
                     onClick={(e) => e.stopPropagation()} 
                     className="absolute inset-0 w-full h-full flex flex-col md:flex-row bg-black/85 backdrop-blur-md z-30 transition-all duration-500"
                   >
+                    {/* Left Column: Info & Start Point input */}
                     <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10 h-[50%] md:h-full overflow-y-auto">
                       <div className="space-y-4">
+                        {/* Header with back button */}
                         <div className="flex items-center justify-between">
                           <button 
                             onClick={(e) => {
@@ -257,6 +321,7 @@ export default function PlacesGrid() {
                             ← {isMr ? "मागे" : "Back"}
                           </button>
                           
+                          {/* Mini Live Status */}
                           {(() => {
                             const info = getPlaceStatus(index);
                             return (
@@ -280,6 +345,7 @@ export default function PlacesGrid() {
                         </p>
                       </div>
 
+                      {/* Direction form */}
                       <form onSubmit={(e) => handleGetDirections(index, e)} className="my-4 md:my-6 space-y-4">
                         <div className="space-y-2">
                           <label className="block text-xs font-semibold text-saffron uppercase tracking-wider">
@@ -316,6 +382,7 @@ export default function PlacesGrid() {
                           )}
                         </div>
 
+                        {/* Popular Quick Selects */}
                         <div className="flex flex-wrap items-center gap-1.5 pt-1">
                           <span className="text-[10px] md:text-xs text-white/40">
                             {isMr ? "त्वरित निवड:" : "Quick Select:"}
@@ -333,6 +400,7 @@ export default function PlacesGrid() {
                         </div>
                       </form>
 
+                      {/* Map Action */}
                       <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
                         <a 
                           href={routeQueries[index] 
@@ -358,6 +426,7 @@ export default function PlacesGrid() {
                       </div>
                     </div>
 
+                    {/* Right Column: Google Map Embed */}
                     <div className="w-full md:w-7/12 h-[50%] md:h-full relative bg-black/10">
                       <iframe 
                         src={placeMapUrl}
@@ -377,6 +446,7 @@ export default function PlacesGrid() {
           })}
         </motion.div>
 
+        {/* Google Map & Attractions Section */}
         <div className="mt-32">
           <div className="mb-12 text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
