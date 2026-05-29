@@ -68,6 +68,8 @@ export default function PlacesGrid() {
   const [startPoints, setStartPoints] = useState<{ [key: number]: string }>({});
   const [routeQueries, setRouteQueries] = useState<{ [key: number]: string }>({});
 
+  const timeEffectDeps = [] as const;
+
   useEffect(() => {
     const formatTime = () => {
       const now = new Date();
@@ -78,7 +80,7 @@ export default function PlacesGrid() {
       setCurrentTime(formatTime());
     }, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, timeEffectDeps);
 
   const getPlaceStatus = (placeId: number) => {
     const now = new Date();
