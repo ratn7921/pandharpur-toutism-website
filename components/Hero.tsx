@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { useTranslation } from "@/lib/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function Hero() {
   const { language, t } = useTranslation();
 
-  const textVariants = {
+  const textVariants: Variants = {
     hidden: { opacity: 0, y: 50, scale: 0.9 },
     visible: (i: number) => ({
       opacity: 1,
@@ -18,7 +18,7 @@ export default function Hero() {
       transition: {
         delay: i * 0.2,
         duration: 1,
-        ease: [0.2, 0.65, 0.3, 0.9],
+        ease: [0.2, 0.65, 0.3, 0.9] as [number, number, number, number],
       },
     }),
   };
