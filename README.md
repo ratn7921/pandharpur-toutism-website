@@ -86,8 +86,7 @@ Built using the Next.js ecosystem to provide a modern, scalable frontend archite
 
 <p align="center">
   <img
-    src=".Screenshot_26-8-2026_121359_pandharpur-toutism-website-n14q-mivzkljse-ratnakar14.vercel.app.jpeg"
-    alt="Pandharpur Tourism Website Preview"
+src="./Screenshot_26-8-2026_121359_pandharpur-toutism-website-n14q-mivzkljse-ratnakar14.vercel.app.jpeg"    alt="Pandharpur Tourism Website Preview"
     width="100%"
   />
 </p>
