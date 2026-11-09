@@ -6,10 +6,12 @@ import PlacesGrid from "@/components/PlacesGrid";
 import Footer from "@/components/Footer";
 import CharacterStories from "@/components/CharacterStories";
 import TravelGuide from "@/components/TravelGuide";
+import WelcomeIntro from "@/components/WelcomeIntro";
 
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-background text-foreground selection:bg-saffron/30">
+      <WelcomeIntro />
       <Navbar />
       <Hero />
       <About />

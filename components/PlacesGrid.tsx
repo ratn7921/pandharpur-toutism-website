@@ -18,7 +18,7 @@ const places = [
     nameMr: "श्री संत गजानन महाराज संस्थान",
     descEn: "Known for exceptional cleanliness and disciplined environment, this highly recommended spiritual retreat is open 24/7 and offers clean, affordable accommodation and satvik prasad meals.",
     descMr: "उत्कृष्ट स्वच्छता आणि शिस्तप्रिय वातावरणासाठी ओळखले जाणारे हे आध्यात्मिक केंद्र २४ तास खुले असते. येथे स्वच्छ, परवडणारे निवासस्थान आणि सात्विक महाप्रसाद भोजन मिळते.",
-    image: "/images/mandir.jpg",
+    image: "/images/gajananmahajmath.jpg",
   },
   {
     nameEn: "Vishnupad Temple",
@@ -32,7 +32,7 @@ const places = [
     nameMr: "तुळशी वृंदावन",
     descEn: "A charming garden that is particularly beautiful in the evenings, featuring a musical fountain and beautifully lit basil plants. Closes at 8:00 PM tonight.",
     descMr: "विविध प्रकारच्या तुळशीची रोपे आणि रात्री उजळून निघणाऱ्या संगीतमय कारंज्यासह संध्याकाळच्या वेळी अत्यंत विलोभनीय दिसणारी एक सुंदर बाग. आज रात्री ८:०० वाजता बंद होईल.",
-    image: "/images/4.jpg",
+    image: "/images/tulsivrundavn.jpg",
   },
   {
     nameEn: "Chandrabhaga River",
@@ -46,14 +46,14 @@ const places = [
     nameMr: "इस्कॉन पंढरपूर",
     descEn: "Situated on the eastern bank of the river, this center is known for its peaceful, clean environment, beautiful Krishna temple, and spiritual meditation retreats.",
     descMr: "नदीच्या पूर्व किनाऱ्यावर वसलेले हे केंद्र अत्यंत शांत, स्वच्छ वातावरण आणि विलोभनीय कृष्ण मंदिरासाठी प्रसिद्ध असून ध्यानसाधनेसाठी उत्तम स्थान आहे.",
-    image: "/images/SnapInsta.to_616422600_18308011927266147_2934674065074266050_n.jpg",
+    image: "/images/iskon-pandharpur.jpeg",
   },
   {
     nameEn: "Kaikadi Maharaj Mandir",
     nameMr: "कैकाडी महाराज मंदिर",
     descEn: "A unique temple math housing nearly 1,000 intricately carved idols that depict various gods, saints, and rich mythological scenes from Hindu scriptures.",
     descMr: "विविध देवी-देवता, संत आणि पौराणिक प्रसंग दर्शवणाऱ्या सुमारे १,००० हून अधिक भव्य मूर्ती असलेले एक अद्वितीय आणि प्रेक्षणीय मंदिर व मठ.",
-    image: "/images/3.jpg",
+    image: "/images/kaikadimaharaj.jpeg",
   },
 ];
 
